@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace ProductApi
 {
@@ -54,7 +55,7 @@ namespace ProductApi
             {
                 endpoints.MapControllers();
                 endpoints.MapGet("/",async context=>{
-                     
+                     await context.Response.WriteAsync(Guid.NewGuid().ToString("N"));
                 });
             });
         }
