@@ -1,0 +1,58 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  # 本实例试验表明可以内置环境变量设置证书和密码定在容器内部一般不做推荐
+  productapi:
+    image: productapi
+    build: dotnetapi/ProductApi
+    ports:
+      - 8878:80
+      - 8879:443
+    environment:
+       ASPNETCORE_URLS: "https://+;http://+"
+       ASPNETCORE_HTTPS_PORT: "8879"
+       ASPNETCORE_ENVIRONMENT: Development
+       ASPNETCORE_Kestrel__Certificates__Default__Password: "fzf123456"
+       ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/ProductApi.pfx"
+    volumes: 
+      - ${fzf003}/pfx:/https
+      #- ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
+
+#本实例表明通过mount 挂在磁盘让程序自动去找证书和密码(推荐)
+  orderserviceapi:
+      image: orderserviceapi
+      build: dotnetapi/OrderSercice
+      ports: 
+        - 7077:80
+        - 7078:443
+      environment:
+         ASPNETCORE_URLS: "https://+;http://+"
+         ASPNETCORE_HTTPS_PORT: "7078"
+         ASPNETCORE_ENVIRONMENT: Development
+         #ASPNETCORE_Kestrel__Certificates__Default__Password: "fzf123456"
+      volumes:
+        - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
+        - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/ 
+
+  grpcechoservice:
+        image: echoservice
+        build: dotnetapi/echoservice
+        ports: 
+          - 6066:80
+          - 6061:443
+        environment:
+          ASPNETCORE_URLS: "https://+;http://+"
+          #ASPNETCORE_ENVIRONMENT: Development
+          ASPNETCORE_HTTPS_PORT: "6061"
+          ASPNETCORE_Kestrel__Certificates__Default__Password: "fzf0031"
+          ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/EchoService.pfx"
+        volumes:
+          - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
+          - ${USERPROFILE}\.aspnet\https:/https
+
+
+      
+      
+ 
