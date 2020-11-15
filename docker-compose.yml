@@ -6,7 +6,9 @@ services:
   # 本实例试验表明可以内置环境变量设置证书和密码定在容器内部一般不做推荐
   productapi:
     image: productapi
-    build: dotnetapi/ProductApi
+    build: 
+      context: .
+      dockerfile: ./dotnetapi/ProductApi/Dockerfile
     ports:
       - 8878:80
       - 8879:443

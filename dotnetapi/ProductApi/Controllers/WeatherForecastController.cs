@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TestLib;
 
 namespace ProductApi.Controllers
 {
@@ -18,9 +19,12 @@ namespace ProductApi.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        readonly UserService _userService;
+
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, UserService userService)
         {
             _logger = logger;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -34,6 +38,13 @@ namespace ProductApi.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("GetStr")]
+        public async Task<string> GetStr()
+        {
+            await Task.Delay(1);
+            return this._userService.GetUser();
         }
     }
 }

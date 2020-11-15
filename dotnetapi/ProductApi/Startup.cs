@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Http;
+using TestLib;
+using Microsoft.Extensions.Options;
 
 namespace ProductApi
 {
@@ -27,6 +29,10 @@ namespace ProductApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<UserService>();
+
+            services.Configure<UserSetues>(Configuration.GetSection(nameof(UserSetues)));
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -54,9 +60,14 @@ namespace ProductApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+               
+               var user= endpoints.ServiceProvider.GetService<IOptionsMonitor<UserSetues>>();
+                 
                 endpoints.MapGet("/",async context=>{
-                     await context.Response.WriteAsync(Guid.NewGuid().ToString("N"));
+                     await context.Response.WriteAsync(Guid.NewGuid().ToString("N")+"--"+user.CurrentValue.Name);
                 });
+
+
             });
         }
     }
