@@ -1,0 +1,21 @@
+version: "3.4"
+
+services:
+  socketserver:
+    image: socketserver
+    build: ./dotnetapi/PipeChannelService
+    ports:
+      - 9300:8086
+      
+  reactiveclient:
+    image: reactiveclient
+    build: ./dotnetapi/SocketClientService
+    ports:
+      - 9608:8086
+    environment:
+      IP: "172.22.0.9"
+    depends_on:
+      - socketserver
+    
+    
+
