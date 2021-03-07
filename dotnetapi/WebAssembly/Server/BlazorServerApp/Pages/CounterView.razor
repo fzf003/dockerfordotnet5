@@ -1,0 +1,14 @@
+﻿@page "/counter"
+@inject HttpService httpService;
+@inject Microsoft.Extensions.Logging.ILoggerFactory factory;
+@inherits ReactiveComponentBase<CounterViewModel>
+
+<h1>Counter</h1>
+
+<p>Current count: @ViewModel.CurrentCount</p>
+
+<p>message:@ViewModel.Name</p>
+
+<button class="btn btn-primary" @onclick=@(async () =>await GetMessage(Guid.NewGuid().ToString()))>Message</button>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>

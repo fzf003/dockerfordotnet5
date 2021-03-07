@@ -23,14 +23,17 @@ namespace PipeChannelService
         public ServerWorker(ILogger<ServerWorker> logger, ILoggerFactory logFactory)
         {
             _logger = logger;
+
             _logFactory = logFactory;
+
+            _socketServer = SocketServer.CreateServer(new IPEndPoint(IPAddress.Any, 8086), _logFactory);
+
+            disposable = _socketServer.AcceptClientObservable.Subscribe(AccceptClient, PrintError, OnServerCompole);
+
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _socketServer = SocketServer.CreateServer(new IPEndPoint(IPAddress.Any, 8086), _logFactory);
-
-            disposable = _socketServer.AcceptClientObservable.Subscribe(AccceptClient, PrintError,OnServerCompole);
 
             _socketServer.Start();
 
@@ -49,7 +52,7 @@ namespace PipeChannelService
         {
             _logger.LogInformation(message);
             
-            client.SendMessageAsync(DateTime.Now.ToString().ToMessageBuffer());
+            client.SendMessageAsync($"Server Reply:{DateTime.Now.ToString()}".ToMessageBuffer());
         }
 
         void OnClientCompole()

@@ -1,0 +1,16 @@
+﻿syntax = "proto3";
+package remote_messages;
+option csharp_namespace = "Messages";
+
+
+message StartRemote {
+	string Sender = 1;
+}
+message Ping {
+	string message=1;
+}
+message Pong {
+	string message=1;
+}
+message Die {
+}

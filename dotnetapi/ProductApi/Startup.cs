@@ -14,6 +14,8 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Http;
 using TestLib;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.Hosting.Server;
 
 namespace ProductApi
 {
@@ -32,17 +34,23 @@ namespace ProductApi
             services.AddSingleton<UserService>();
 
             services.Configure<UserSetues>(Configuration.GetSection(nameof(UserSetues)));
-
+            services.AddHostedService<HostService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProductApi", Version = "v1" });
             });
+
+            services.AddSingleton(serviceProvider =>
+            {
+                var server = serviceProvider.GetRequiredService<IServer>();
+                return server.Features.Get<IServerAddressesFeature>();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServerAddressesFeature server)
         {
             if (env.IsDevelopment())
             {
@@ -57,6 +65,11 @@ namespace ProductApi
 
             app.UseAuthorization();
 
+            var fearures = server;
+                //app.ServerFeatures.Get<IServerAddressesFeature>();
+
+       
+     
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

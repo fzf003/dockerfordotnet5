@@ -6,13 +6,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\OrderManagement.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\OrderManagement.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\teller.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.32.0" />
      <PackageReference Include=" Grpc.AspNetCore.Web" Version="2.32.0" />
+     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
    
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestLib\TestLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Protos\google\protobuf\wrappers.proto">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

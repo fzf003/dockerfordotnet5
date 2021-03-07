@@ -11,6 +11,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Http;
+using System.Text;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.WebUtilities;
+using System.IO;
+using TinyService.ReactiveRabbit;
+using OrderSercice.Services;
+using TinyService;
+using TinyService.Core;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System.Threading;
 
 namespace OrderSercice
 {
@@ -28,10 +40,25 @@ namespace OrderSercice
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddLogging(c => c.AddConsole().SetMinimumLevel(LogLevel.Debug));
+             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OrderSercice", Version = "v1" });
             });
+
+            services.AddReactiveRabbit(setting =>
+            {
+                setting.HostName = "localhost";
+                setting.Port = 5672;
+                setting.VirtualHost = "fzf003";
+                setting.UserName = "fzf003";
+                setting.Password = "fzf003";
+            });
+
+            services.AddSingleton<IRabbmitServiceWorker, RabbmitServiceWorker>();
+
+            services.UseTinyService();
+ 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +80,22 @@ namespace OrderSercice
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapGet("/{name}/{sex}", async context => {
+                    var router= context.Request.RouteValues;
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync($"{router["name"] as string}<br/>");
+                    await context.Response.WriteAsync(router["sex"] as string);
+                });
+
+                endpoints.CreateOrderToPost("/{order}");
+                
+ 
             });
+
+   
+
         }
     }
+    
 }

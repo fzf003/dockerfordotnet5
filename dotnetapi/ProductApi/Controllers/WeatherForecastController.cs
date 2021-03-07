@@ -21,6 +21,7 @@ namespace ProductApi.Controllers
 
         readonly UserService _userService;
 
+
         public WeatherForecastController(ILogger<WeatherForecastController> logger, UserService userService)
         {
             _logger = logger;

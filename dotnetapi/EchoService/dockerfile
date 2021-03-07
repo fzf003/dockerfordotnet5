@@ -2,8 +2,10 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
+COPY ["dotnetapi/TestLib/TestLib.csproj", "dotnetapi/TestLib/"]
+COPY ["dotnetapi/EchoService/EchoService.csproj", "dotnetapi/EchoService/"]
+#COPY *.csproj ./
+RUN dotnet restore "dotnetapi/EchoService/EchoService.csproj"
 
 # Copy everything else and build
 COPY . ./

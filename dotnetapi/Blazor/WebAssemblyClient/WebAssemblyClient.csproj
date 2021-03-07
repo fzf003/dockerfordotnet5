@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+
+
+    <PackageReference Include="Google.Protobuf" Version="3.14.0" />
+
+
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.34.0" />
+    <PackageReference Include="Grpc.Tools" PrivateAssets="All" Version="2.34.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.34.0" />
+    <PackageReference Include="Grpc.Net.Client.Web" Version="2.34.0" />
+    
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.1" PrivateAssets="all" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\GrpcService\Protos\counter.proto" GrpcServices="Client" Access="Internal">
+      <Link>Protos\counter.proto</Link>
+    </Protobuf>
+  </ItemGroup>
+
+
+
+
+</Project>

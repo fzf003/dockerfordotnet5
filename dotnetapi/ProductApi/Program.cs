@@ -19,16 +19,19 @@ namespace ProductApi
 
         public static IHostBuilder CreateHostBuilder(string[] args)=>
                       Host.CreateDefaultBuilder(args)
+           
                         .ConfigureWebHostDefaults(webBuilder =>
                         {
-                             webBuilder.UseStartup<Startup>()
-                            .ConfigureAppConfiguration((context, c) =>
-                            {
+                            //webBuilder.UseKestrel();
+                            webBuilder.UseStartup<Startup>()
+                           .ConfigureAppConfiguration((context, c) =>
+                           {
                                 /*c.SetBasePath(Directory.GetCurrentDirectory())
                                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                 .AddJsonFile("secrets.json", optional: false, reloadOnChange: true);*/
-                            });
+                           });
 
+                            webBuilder.UseUrls("http://localhost:9911");
 
                         });
         

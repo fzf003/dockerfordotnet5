@@ -16,6 +16,22 @@ services:
       IP: "172.22.0.9"
     depends_on:
       - socketserver
+      
+  echoservice:
+        image: testgrpcservice:latest
+        #build: dotnetapi/echoservice
+        ports: 
+          - 8066:80
+          - 8061:443
+        environment:
+          ASPNETCORE_URLS: "https://+;http://+"
+          #ASPNETCORE_ENVIRONMENT: Development
+          ASPNETCORE_HTTPS_PORT: "8061"
+          ASPNETCORE_Kestrel__Certificates__Default__Password: "fzf0031"
+          ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/EchoService.pfx"
+        volumes:
+          - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
+          - ${USERPROFILE}\.aspnet\https:/https
     
     
 

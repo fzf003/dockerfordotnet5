@@ -1,0 +1,53 @@
+{
+  "ReverseProxy": {
+    "Routes": [
+      {
+        "RouteId": "appservice",
+        "ClusterId": "cluster1",
+        "Match": {
+          //**catch-all
+          "Path": "/shop/{*any}"
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/shop"
+          },
+          {
+            "ResponseHeader": "server",
+            "Append": "fzf009",
+            "When": "Success"
+          }
+        ]
+      }
+    ],
+    "Clusters": {
+      "cluster1": {
+        "HealthCheck": {
+          "Active": {
+            "Enabled": "true",
+            "Interval": "00:00:03",
+            "Timeout": "00:00:10",
+            "Policy": "ConsecutiveFailures",
+            "Path": "/"
+          }
+        },
+        "Passive": {
+          "Enabled": "true",
+          "Policy": "TransportFailureRate",
+          "ReactivationPeriod": "00:00:30"
+        },
+        "LoadBalancingPolicy": "RoundRobin",
+        "Destinations": {
+          "cluster1/destination1": {
+            "Address": "https://localhost:9099/",
+            "Health": "https://localhost:9099/"
+          },
+          "cluster1/destination2": {
+            "Address": "https://localhost:9091/",
+            "Health": "https://localhost:9091/"
+          }
+        }
+      }
+    }
+  }
+}

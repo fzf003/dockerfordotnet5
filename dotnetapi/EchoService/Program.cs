@@ -23,6 +23,6 @@ namespace EchoService
                 {
                     
                     webBuilder.UseStartup<Startup>();
-                });
+                }).UseEnvironment(Environments.Production);
     }
 }

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Akka" Version="1.4.16" />
+    <PackageReference Include="Akka.DependencyInjection" Version="1.4.16" />
+    <PackageReference Include="Akka.Bootstrap.Docker" Version="0.5.0" />
+    <PackageReference Include="Akka.Cluster.Tools" Version="1.4.16" />
+    <PackageReference Include="Akka.Streams" Version="1.4.16" />
+    <PackageReference Include="Petabridge.Cmd.Cluster" Version="0.8.2" />
+    <PackageReference Include="Petabridge.Cmd.Cluster.Sharding" Version="0.8.2" />
+    <PackageReference Include="Petabridge.Cmd.Remote" Version="0.8.2" />
+    
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+  </ItemGroup>
+</Project>

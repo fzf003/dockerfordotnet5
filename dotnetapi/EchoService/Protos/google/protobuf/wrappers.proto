@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+
+package google.protobuf;
+
+//option csharp_namespace = "Google.Protobuf.WellKnownTypes";
+
+message StringValue {
+  // The string value.
+  string value = 1;
+}
+

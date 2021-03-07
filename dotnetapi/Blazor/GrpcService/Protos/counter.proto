@@ -1,0 +1,20 @@
+syntax = "proto3";
+//import "google/protobuf/timestamp.proto";
+//import "google/protobuf/empty.proto";
+
+option csharp_namespace = "GrpcService";
+
+
+service Counter {
+  rpc StartCounter(CounterRequest) returns(stream CounterResponse);
+  rpc QueryByUserId(CounterRequest) returns(CounterResponse);
+}
+
+message CounterRequest {
+ int32 start=1;
+}
+
+message CounterResponse{
+int32 end=1;
+string user=2;
+}

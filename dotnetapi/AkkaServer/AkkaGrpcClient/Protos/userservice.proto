@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "Akka.Client.Autogen.Grpc.v1";
+//package userservice;
+
+service UserService {
+
+  rpc QueryUsers (RequestMessae) returns (ReplyMessage);
+
+  rpc QueryStreamUsers (RequestMessae) returns (stream ReplyMessage);
+ 
+}
+
+message RequestMessae {
+  string message = 1;
+}
+
+message ReplyMessage {
+  string message = 1;
+}
